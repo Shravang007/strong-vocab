@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+  <title>Strong Vocab</title>
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#c9a84c"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="StrongVocab"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--gold:#c9a84c;--gold-d:#8b6914;--voc:#a07acc;--voc-d:#5a2d91;--bg:#09080a;--text:#ede6d6;--muted:#4a4055;--tel:#80c080;--tel-bg:rgba(80,160,80,0.06);--tel-border:rgba(80,160,80,0.22)}
+html,body{height:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;background-image:radial-gradient(ellipse at 15% 0%,rgba(120,60,180,0.07) 0%,transparent 55%),radial-gradient(ellipse at 85% 100%,rgba(180,130,40,0.08) 0%,transparent 55%)}
+.hdr{position:sticky;top:0;z-index:100;background:rgba(9,8,10,0.93);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:14px 16px 10px;border-bottom:1px solid rgba(255,255,255,0.06);text-align:center}
+.logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;background:linear-gradient(135deg,#c9a84c,#e8c97a 45%,#a07acc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:0.06em}
+.tag{font-size:11px;color:var(--muted);font-style:italic;margin-top:2px}
+.date-lbl{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#6a5a40;margin-top:4px}
+#inst-banner{display:none;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px;background:linear-gradient(135deg,rgba(139,105,20,0.2),rgba(201,168,76,0.1));border-bottom:1px solid rgba(180,140,60,0.18);font-size:12px;color:var(--gold)}
+#inst-banner.on{display:flex}
+#inst-banner button{padding:4px 12px;background:var(--gold);color:var(--bg);border:none;border-radius:2px;font-size:11px;font-weight:700;cursor:pointer}
+.sec-tabs{display:flex;background:#0d0b10;border-bottom:1px solid rgba(255,255,255,0.05)}
+.sec-tab{flex:1;padding:13px 8px;background:none;border:none;border-bottom:2px solid transparent;font-family:'Playfair Display',serif;font-size:13px;cursor:pointer;color:var(--muted);transition:all 0.2s;margin-bottom:-1px}
+.sec-tab.law.on{color:var(--gold);border-bottom-color:var(--gold)}
+.sec-tab.voc.on{color:var(--voc);border-bottom-color:var(--voc)}
+.bar{height:2px;background:rgba(255,255,255,0.04);overflow:hidden;display:none}
+.bar.on{display:block}
+.bar-inner{height:100%;background-size:200% 100%;animation:sh 1.4s infinite}
+.bar.law .bar-inner{background:linear-gradient(90deg,var(--gold-d),var(--gold),var(--gold-d))}
+.bar.voc .bar-inner{background:linear-gradient(90deg,var(--voc-d),var(--voc),var(--voc-d))}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.wrap{max-width:640px;margin:0 auto;padding:22px 14px 100px}
+.fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);padding:14px 28px;border:none;border-radius:50px;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;letter-spacing:0.06em;cursor:pointer;white-space:nowrap;z-index:200;transition:opacity 0.2s,transform 0.15s}
+.fab.law{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:var(--bg);box-shadow:0 6px 28px rgba(201,168,76,0.3)}
+.fab.voc{background:linear-gradient(135deg,var(--voc-d),var(--voc));color:#fff;box-shadow:0 6px 28px rgba(160,122,204,0.3)}
+.fab:active{transform:translateX(-50%) scale(0.95)}
+.fab:disabled{opacity:0.4}
+.err{padding:10px 14px;color:#c06060;background:rgba(180,60,60,0.07);border:1px solid rgba(180,60,60,0.15);font-size:13px;margin-bottom:16px;border-radius:2px;display:none}
+.err.on{display:block}
+.arc-tabs{display:flex;margin-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.arc-tab{padding:7px 16px;background:none;border:none;border-bottom:2px solid transparent;font-family:'Crimson Pro',serif;font-size:14px;cursor:pointer;color:var(--muted);margin-bottom:-1px;transition:color 0.2s}
+.arc-tab.law.on{color:var(--gold);border-bottom-color:var(--gold)}
+.arc-tab.voc.on{color:var(--voc);border-bottom-color:var(--voc)}
+.day{margin-bottom:32px;animation:fu 0.4s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.day-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.day-lbl{font-family:'Playfair Display',serif;font-size:10px;letter-spacing:0.13em;text-transform:uppercase;white-space:nowrap}
+.day-lbl.law{color:var(--gold)}.day-lbl.voc{color:var(--voc)}
+.day-div{flex:1;height:1px}
+.day-div.law{background:linear-gradient(90deg,rgba(180,140,60,0.26),transparent)}
+.day-div.voc{background:linear-gradient(90deg,rgba(160,122,204,0.26),transparent)}
+.card{padding:15px 18px;margin-bottom:11px;border-radius:2px;transition:background 0.2s}
+.card.law{background:rgba(201,168,76,0.03);border:1px solid rgba(201,168,76,0.1);border-left:3px solid rgba(201,168,76,0.26)}
+.card.voc{background:rgba(160,122,204,0.03);border:1px solid rgba(160,122,204,0.1);border-left:3px solid rgba(160,122,204,0.26)}
+.card.law:active{background:rgba(201,168,76,0.07);border-left-color:var(--gold)}
+.card.voc:active{background:rgba(160,122,204,0.07);border-left-color:var(--voc)}
+.c-num{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#3e3550;margin-bottom:3px}
+.c-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:2px}
+.c-sub{font-size:12px;font-style:italic;margin-bottom:9px}
+.c-sub.law{color:#7a6e58}.c-sub.voc{color:#6a5a80}
+.lbl{display:inline-block;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:2px 8px;border-radius:1px;margin-bottom:5px;margin-top:3px}
+.lbl.e{background:rgba(201,168,76,0.1);color:#a08040}
+.lbl.t{background:rgba(80,160,80,0.1);color:#50a050}
+.lbl.x{background:rgba(100,120,200,0.08);color:#7080b0}
+.c-eng{font-size:14.5px;line-height:1.7;color:#c9bba0;font-weight:300;margin-bottom:7px}
+.c-tel{font-size:14.5px;line-height:1.7;color:var(--tel);font-weight:400;margin-bottom:7px;padding:8px 12px;background:var(--tel-bg);border-left:2px solid var(--tel-border);border-radius:1px}
+.c-ex{font-size:13px;line-height:1.65;color:#484058;font-style:italic;padding-left:10px;border-left:1px solid rgba(255,255,255,0.05)}
+.empty{text-align:center;padding:52px 20px;color:var(--muted)}
+.empty .ic{font-size:36px;margin-bottom:12px;opacity:0.25}
+.empty p{font-size:15px;font-style:italic;line-height:1.7}
+.panel{display:none}.panel.on{display:block}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">📚 Strong Vocab</div>
+  <div class="tag">Law Terms & Vocabulary — రోజువారీ జ్ఞానం</div>
+  <div class="date-lbl" id="date-lbl"></div>
+</div>
+<div id="inst-banner">
+  <span>📲 Install as app on your phone!</span>
+  <button onclick="installApp()">Install</button>
+</div>
+<div class="sec-tabs">
+  <button class="sec-tab law on" id="tab-law" onclick="switchSec('law')">⚖️ Law Terms</button>
+  <button class="sec-tab voc" id="tab-voc" onclick="switchSec('voc')">📖 Vocabulary</button>
+</div>
+<div class="panel on" id="panel-law">
+  <div class="bar law" id="bar-law"><div class="bar-inner"></div></div>
+  <div class="wrap">
+    <div class="err" id="err-law"></div>
+    <div class="arc-tabs" id="arctabs-law" style="display:none">
+      <button class="arc-tab law on" id="at-law-today" onclick="switchArc('law','today')">Today</button>
+      <button class="arc-tab law" id="at-law-arc" onclick="switchArc('law','archive')">Archive</button>
+    </div>
+    <div id="content-law"></div>
+  </div>
+</div>
+<div class="panel" id="panel-voc">
+  <div class="bar voc" id="bar-voc"><div class="bar-inner"></div></div>
+  <div class="wrap">
+    <div class="err" id="err-voc"></div>
+    <div class="arc-tabs" id="arctabs-voc" style="display:none">
+      <button class="arc-tab voc on" id="at-voc-today" onclick="switchArc('voc','today')">Today</button>
+      <button class="arc-tab voc" id="at-voc-arc" onclick="switchArc('voc','archive')">Archive</button>
+    </div>
+    <div id="content-voc"></div>
+  </div>
+</div>
+<button class="fab law" id="fab" onclick="generate()">⚖️ Fetch Today's Law Terms</button>
+<script>
+// Local అయితే same server, Production అయితే Render server
+const API_BASE = (window.location.hostname==='localhost'||window.location.hostname.startsWith('192.168'))
+  ? '' : 'https://strong-vocab-api.onrender.com';
+
+const todayKey=new Date().toISOString().slice(0,10);
+const todayLabel=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+document.getElementById('date-lbl').textContent=todayLabel;
+
+const KEY_LAW='sv-law-log',KEY_VOC='sv-voc-log';
+let curSec='law',arcTab={law:'today',voc:'today'};
+let logs={law:[],voc:[]},loading={law:false,voc:false};
+let deferredPrompt=null;
+
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('inst-banner').classList.add('on');});
+function installApp(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('inst-banner').classList.remove('on');});}
+window.addEventListener('appinstalled',()=>document.getElementById('inst-banner').classList.remove('on'));
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+
+function getLog(t){try{return JSON.parse(localStorage.getItem(t==='law'?KEY_LAW:KEY_VOC)||'[]')}catch{return[]}}
+function setLog(t,l){localStorage.setItem(t==='law'?KEY_LAW:KEY_VOC,JSON.stringify(l))}
+
+async function generate(){
+  const type=curSec;
+  if(loading[type])return;
+  loading[type]=true;updateFab();
+  document.getElementById('bar-'+type).classList.add('on');
+  document.getElementById('err-'+type).classList.remove('on');
+  try{
+    const log=logs[type];
+    const exclude=log.flatMap(e=>e.items.map(i=>i.term||i.word));
+    const res=await fetch(API_BASE+'/api/'+type,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({exclude})});
+    if(!res.ok)throw new Error('Server '+res.status);
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+    const entry={date:todayKey,label:todayLabel,items:data.items};
+    const newLog=[entry,...log.filter(e=>e.date!==todayKey)].slice(0,30);
+    logs[type]=newLog;setLog(type,newLog);
+    arcTab[type]='today';renderAll(type);
+  }catch(e){
+    const el=document.getElementById('err-'+type);
+    el.textContent='Error: '+e.message;el.classList.add('on');
+  }
+  loading[type]=false;
+  document.getElementById('bar-'+type).classList.remove('on');
+  updateFab();
+}
+
+function switchSec(type){curSec=type;document.getElementById('tab-law').classList.toggle('on',type==='law');document.getElementById('tab-voc').classList.toggle('on',type==='voc');document.getElementById('panel-law').classList.toggle('on',type==='law');document.getElementById('panel-voc').classList.toggle('on',type==='voc');updateFab();}
+function switchArc(type,tab){arcTab[type]=tab;document.getElementById('at-'+type+'-today').classList.toggle('on',tab==='today');document.getElementById('at-'+type+'-arc').classList.toggle('on',tab==='archive');renderContent(type);}
+function updateFab(){const type=curSec,fab=document.getElementById('fab');fab.className='fab '+type;fab.disabled=loading[type];const hasToday=logs[type].some(e=>e.date===todayKey);if(loading[type])fab.textContent='⏳ Generating...';else if(type==='law')fab.textContent=hasToday?'🔄 Refresh Law Terms':'⚖️ Fetch Today\'s Law Terms';else fab.textContent=hasToday?'🔄 Refresh Vocabulary':'📖 Fetch Today\'s Vocabulary';}
+function renderAll(type){const log=logs[type];const arcCount=log.filter(e=>e.date!==todayKey).length;document.getElementById('arctabs-'+type).style.display=log.length?'flex':'none';document.getElementById('at-'+type+'-arc').textContent='Archive ('+arcCount+')';updateFab();renderContent(type);}
+function renderContent(type){
+  const isLaw=type==='law',log=logs[type],at=arcTab[type];
+  const display=at==='today'?log.filter(e=>e.date===todayKey):log.filter(e=>e.date!==todayKey);
+  const el=document.getElementById('content-'+type);
+  if(!display.length){el.innerHTML=`<div class="empty"><div class="ic">${isLaw?'⚖️':'📚'}</div><p>${at==='today'?(isLaw?'నేటి Law Terms కోసం<br>కింద బటన్ నొక్కండి':'నేటి Vocabulary కోసం<br>కింద బటన్ నొక్కండి'):'Archive లో ఏమీ లేదు.<br>రేపు రండి!'}</p></div>`;return;}
+  el.innerHTML=display.map((entry,ei)=>`<div class="day" style="animation-delay:${ei*60}ms"><div class="day-hdr"><span class="day-lbl ${type}">${entry.label}</span><div class="day-div ${type}"></div></div>${entry.items.map((item,i)=>isLaw?lawCard(item,i):vocCard(item,i)).join('')}</div>`).join('');
+}
+function lawCard(item,i){return`<div class="card law"><div class="c-num">Law Term ${i+1} of 5</div><div class="c-title">${item.term}</div>${item.latin?`<div class="c-sub law">🏛️ ${item.latin}</div>`:''}<div class="lbl e">English Meaning</div><div class="c-eng">${item.english}</div><div class="lbl t">తెలుగు అర్థం</div><div class="c-tel">${item.telugu}</div>${item.example?`<div class="lbl x">Example</div><div class="c-ex">${item.example}</div>`:''}</div>`}
+function vocCard(item,i){return`<div class="card voc"><div class="c-num">Word ${i+1} of 5</div><div class="c-title">${item.word}</div>${item.partOfSpeech?`<div class="c-sub voc">(${item.partOfSpeech})</div>`:''}<div class="lbl e">English Meaning</div><div class="c-eng">${item.english}</div><div class="lbl t">తెలుగు అర్థం</div><div class="c-tel">${item.telugu}</div>${item.example?`<div class="lbl x">Example</div><div class="c-ex">${item.example}</div>`:''}</div>`}
+
+logs.law=getLog('law');logs.voc=getLog('voc');
+renderAll('law');renderAll('voc');
+</script>
+</body>
+</html>

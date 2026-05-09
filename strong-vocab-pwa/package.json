@@ -1,0 +1,14 @@
+{
+  "name": "strong-vocab",
+  "version": "2.0.0",
+  "description": "Daily Law Terms & Vocabulary with Telugu meanings — Powered by Gemini FREE",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1",
+    "node-fetch": "^3.3.2"
+  }
+}
